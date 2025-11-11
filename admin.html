@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TARA Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@400&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Lato', sans-serif; background-color: #f0ede8; color: #1a1a1a; }
+    .admin-container { max-width: 900px; margin: 0 auto; padding: 2rem; }
+    header { background-color: #1a1a1a; color: #fff; padding: 2rem; text-align: center; margin-bottom: 2rem; border-radius: 4px; }
+    header h1 { font-family: 'Playfair Display', serif; font-size: 2rem; letter-spacing: 0.1em; }
+    .form-section { background-color: #fff; padding: 2rem; border-radius: 4px; margin-bottom: 2rem; }
+    .form-section h2 { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 1rem; }
+    .form-group { margin-bottom: 1.2rem; }
+    label { display: block; font-weight: 600; margin-bottom: 0.4rem; }
+    input, textarea { width: 100%; padding: 0.7rem; border: 1px solid #ddd; border-radius: 3px; font-family: 'Lato', sans-serif; }
+    button { background-color: #c9a961; color: #fff; border: none; padding: 0.9rem 1.8rem; border-radius: 3px; cursor: pointer; font-family: 'Playfair Display', serif; transition: all 0.3s; margin-right: 0.8rem; margin-top: 0.5rem; }
+    button:hover { background-color: #1a1a1a; }
+    button.delete { background-color: #d32f2f; }
+    .products-list { background-color: #fff; padding: 2rem; border-radius: 4px; }
+    .product-item { border-left: 4px solid #c9a961; padding: 1rem; margin-bottom: 0.8rem; background-color: #fafaf8; }
+    .product-item h3 { font-family: 'Playfair Display', serif; margin-bottom: 0.3rem; }
+  </style>
+</head>
+<body>
+  <div class="admin-container">
+    <header>
+      <h1>TARA Admin Panel</h1>
+      <p>SKU Management</p>
+    </header>
+
+    <div class="form-section">
+      <h2>Add Product</h2>
+      <div class="form-group">
+        <label>Product Name</label>
+        <input type="text" id="productName" placeholder="Product name">
+      </div>
+      <div class="form-group">
+        <label>Price</label>
+        <input type="number" id="productPrice" placeholder="Price">
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea id="productDesc" placeholder="Description"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Image URL</label>
+        <input type="text" id="productImage" placeholder="Image URL">
+      </div>
+      <button onclick="addProduct()">Add Product</button>
+      <button class="delete" onclick="clearAll()">Clear All</button>
+    </div>
+
+    <div class="products-list">
+      <h2>Products</h2>
+      <div id="productsList"></div>
+    </div>
+  </div>
+
+  <script>
+    function load() {
+      let products = JSON.parse(localStorage.getItem('tara_products')) || [];
+      document.getElementById('productsList').innerHTML = products.length ? products.map((p,i) => `<div class="product-item"><h3>${p.name}</h3><p>$${p.price}</p><button class="delete" onclick="delete_(${i})">Remove</button></div>`).join('') : '<p>No products</p>';
+    }
+    function addProduct() {
+      let n = document.getElementById('productName').value;
+      let p = document.getElementById('productPrice').value;
+      let d = document.getElementById('productDesc').value;
+      let i = document.getElementById('productImage').value;
+      if(n && p && d && i) {
+        let prods = JSON.parse(localStorage.getItem('tara_products')) || [];
+        prods.push({name: n, price: p, description: d, image: i});
+        localStorage.setItem('tara_products', JSON.stringify(prods));
+        document.getElementById('productName').value = '';
+        document.getElementById('productPrice').value = '';
+        document.getElementById('productDesc').value = '';
+        document.getElementById('productImage').value = '';
+        load();
+      }
+    }
+    function delete_(idx) {
+      let prods = JSON.parse(localStorage.getItem('tara_products')) || [];
+      prods.splice(idx, 1);
+      localStorage.setItem('tara_products', JSON.stringify(prods));
+      load();
+    }
+    function clearAll() {
+      if(confirm('Delete all?')) {
+        localStorage.removeItem('tara_products');
+        load();
+      }
+    }
+    load();
+  </script>
+</body>
+</html>
