@@ -362,6 +362,34 @@
                 gap: 40px;
             }
         }
+
+            /* Moving Black Line Divider */
+    .marquee-container {
+      width: 100%;
+      overflow: hidden;
+      background: #181818;
+      padding: 6px 0;
+      height: 24px;
+    }
+
+    .marquee {
+      display: flex;
+      white-space: nowrap;
+      animation: scroll 18s linear infinite;
+    }
+
+    .marquee span {
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: #f4f1ed;
+      font-weight: 400;
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    @keyframes scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
     </style>
 </head>
 <body>
@@ -383,6 +411,13 @@
             <a href="#collection" class="cta-button">Explore Collection</a>
         </div>
     </section>
+
+        <!-- Moving Black Line Divider -->
+    <div class="marquee-container">
+      <div class="marquee">
+        <span>LUXURY REDEFINED — EXCLUSIVE COLLECTION NOW LIVE — TIMELESS CRAFT — LUXURY REDEFINED — EXCLUSIVE COLLECTION NOW LIVE — TIMELESS CRAFT — </span>
+      </div>
+    </div>
     
     <!-- Collection Section -->
     <section class="collection" id="collection">
