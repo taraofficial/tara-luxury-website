@@ -43,9 +43,9 @@ body {
 }
 
 .brand-name {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Inter', sans-serif;
   font-size: 2.5rem;
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: 0.15em;
   color: #1a1a1a;
 }
